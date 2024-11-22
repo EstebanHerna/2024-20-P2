@@ -15,4 +15,36 @@
   </div>
 
   <app-pokemon-list [pokemonList]="trainerDetail.pokemons"></app-pokemon-list>
+  <button (click)="goBack()" class="back-button">Atras</button>
 </div>
+
+<div *ngIf="selectedTrainer">
+  <app-trainer-detail [trainerDetail]="selectedTrainer"></app-trainer-detail>
+</div>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th class="h4">Trainer's Name</th>
+      <th class="h4">Trainer's Image</th>
+      <th class="h4">Trainer's Small Snapshot</th>
+      <th class="h4">Pokémon Count</th> 
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let t of trainers" class="row-table" (click)="onSelected(t)">
+      <td>
+        <span>{{ t.name }}</span>
+      </td>
+      <td>
+        <img [src]="t.imageUrl" alt="{{ t.name }}'s Image" class="img-thumbnail" />
+      </td>
+      <td>
+        <span>{{ t.smallSnopsies }}</span>
+      </td>
+      <td>
+        <span>{{ t.pokemons.length }}</span> 
+      </td>
+    </tr>
+  </tbody>
+</table>

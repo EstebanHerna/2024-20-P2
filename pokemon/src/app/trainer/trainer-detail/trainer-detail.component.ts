@@ -12,7 +12,8 @@ import { Chart } from 'chart.js';
 })
 export class TrainerDetailComponent implements OnInit {
   @Input() trainerDetail!: Trainer; 
-  trainer: any;
+  selectedTrainer: Trainer | null = null;
+  trainers: Trainer[] = [];  
 
   constructor(
     private trainerService: TrainerService,
@@ -20,6 +21,15 @@ export class TrainerDetailComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.trainerService.getTrainers().subscribe(
+      (trainers) => {
+        this.trainers = trainers;  
+      },
+      (error) => {
+        console.error('Error al cargar la lista de entrenadores:', error);
+      }
+    );
+
     const id = Number(this.route.snapshot.paramMap.get('id'));
     this.trainerService.getTrainerById(id).subscribe(
       (trainer) => {
@@ -46,7 +56,7 @@ export class TrainerDetailComponent implements OnInit {
   createChart() {
     const levels = this.trainerDetail.pokemons.map((pokemon: Pokemon) => pokemon.level);
     const labels = this.trainerDetail.pokemons.map((pokemon: Pokemon) => pokemon.name);
-
+  
     new Chart('pokemonChart', {
       type: 'bar',
       data: {
@@ -55,8 +65,7 @@ export class TrainerDetailComponent implements OnInit {
           {
             label: 'Niveles de Pokémon',
             data: levels,
-            backgroundColor: 'rgba(255, 99, 132, 0.2)',
-            borderColor: 'rgba(255, 99, 132, 1)',
+            backgroundColor: 'rgba(0, 123, 255, 0.5)', 
             borderWidth: 1,
           },
         ],
@@ -71,5 +80,12 @@ export class TrainerDetailComponent implements OnInit {
       },
     });
   }
-}
 
+  goBack(): void {
+    window.history.back(); 
+  }
+
+  onSelected(trainer: Trainer) {
+    this.selectedTrainer = trainer;
+  }
+}
