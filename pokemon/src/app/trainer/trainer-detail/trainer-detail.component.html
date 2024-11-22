@@ -1,8 +1,18 @@
 <div class="trainer-detail">
-  <h2>{{ trainerDetail.name }}</h2>
-  <img [src]="trainerDetail.imageUrl" [alt]="trainerDetail.name" />
-  <p><strong>Age:</strong> {{ trainerDetail.age }}</p>
-  <p><strong>About...</strong> {{ trainerDetail.bigSnopsies }}</p>
-  <p><strong>Pokemons:</strong></p>
+  <div class="trainer-header">
+    <img [src]="trainerDetail.imageUrl" [alt]="trainerDetail.name" class="trainer-image" />
+    <div class="trainer-info">
+      <h2>{{ trainerDetail.name }}</h2>
+      <p>{{ trainerDetail.bigSnopsies }}</p>
+      <p><strong>Edad:</strong> {{ trainerDetail.age }} años</p>
+      <p><strong>No. Pokémon:</strong> {{ trainerDetail.pokemons.length }}</p> 
+      <p><strong>Promedio de nivel:</strong> {{ getAverageLevel() }}</p> 
+    </div>
+  </div>
+
+  <div class="pokemon-graphic">
+    <canvas id="pokemonChart"></canvas> 
+  </div>
+
   <app-pokemon-list [pokemonList]="trainerDetail.pokemons"></app-pokemon-list>
 </div>

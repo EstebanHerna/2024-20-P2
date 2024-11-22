@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router'; 
 import { Trainer } from '../Trainer';
-import { dataTrainers } from '../dataTrainers';
+import { TrainerService } from '../trainer.service'; 
 
 @Component({
   selector: 'app-trainer-list',
@@ -9,20 +10,25 @@ import { dataTrainers } from '../dataTrainers';
 })
 export class TrainerListComponent implements OnInit {
   trainers: Array<Trainer> = [];
-  selected: Boolean = false;
+  selected: Boolean = false; 
   selectedTrainer!: Trainer;
-  constructor() {}
 
-  getTraunersList(): Array<Trainer> {
-    return dataTrainers;
-  }
+  constructor(private trainerService: TrainerService) {}
 
   ngOnInit() {
-    this.trainers = this.getTraunersList();
+    this.trainerService.getTrainers().subscribe(
+      (trainers) => {
+        this.trainers = trainers;
+      },
+      (error) => {
+        console.error('Error al cargar entrenadores:', error);
+      }
+    );
   }
 
   onSelected(trainer: Trainer) {
-    this.selected = true;
+    this.selected = true; 
     this.selectedTrainer = trainer;
   }
 }
+
